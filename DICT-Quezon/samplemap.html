@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Im the MAP</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI=" crossorigin="" />
+    <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js" integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM=" crossorigin=""></script>
+    <style media="screen">
+      #map{
+        width: 600px;
+        height: 600px;
+      }
+      .popup{
+          font-size: 1.1rem;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="map"></div>
+  </body>
+  <script>
+    const map = L.map('map').setView([14.131, 121.965], 8);
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
+
+    const data = {
+      dict: {
+        coords: [13.946927483642305, 121.61101088007385],
+        officename: "DICT Provincial Office",
+        address: "OfficeName 123 Lucena",
+        website: 'dict.gov.ph',
+        phone:123,
+      },
+      tayabas: {
+        coords: [14.02426,121.59513],
+        officename: "Bahay Ni dulay",
+        address: "OfficeName 123 Lucena",
+        website: 'dict.gov.ph',
+        phone:123,
+      },
+
+    }
+
+  const customIcon =  L.icon({
+      iconUrl: './img/wifi_icon.png',
+      iconSize: [25, 25],
+    })
+
+    for (let key in data){
+
+      const office = data[key];
+
+      L.marker(office.coords, {
+        title: office.officename,
+        icon: customIcon,
+      })
+      .bindPopup(`
+      <span class="popup">
+        <b>${office.officename}</b>
+        <br>${office.address}
+        <br><a href="${office.website}"
+        target="_blank">${office.website}</a>
+        <br>Call:<a href="${office.phone}">${office.phone}</a></span>`)
+        .addTo(map)
+    }
+  </script>
+</html>
